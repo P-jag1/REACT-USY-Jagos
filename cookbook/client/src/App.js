@@ -1,4 +1,5 @@
 import './App.css';
+import recipeList from "./data/MockUpData";
 
 function App() {
   return (
