@@ -5,7 +5,7 @@ function RecipeList(props) {
   function getRecipeList(recipeList) {
     return recipeList.map((recipe) => {
       return (
-          <Recipe key={recipe.name} recipe={recipe} />
+          <Recipe key={recipe.id} recipe={recipe} />
       );
     });
   }
