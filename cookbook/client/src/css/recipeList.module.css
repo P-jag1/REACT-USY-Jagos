@@ -1,0 +1,20 @@
+.recipeButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.recipeButton {
+    background-color: #CEAB93;
+    border: 1px solid #CEAB93;
+    color: #272727;
+    transition: 0.5s;  
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.recipeButton:hover {
+    transform: scale(1.05);
+    background-color: #E3CAA5;
+    border: 1px solid #E3CAA5;
+    color: #272727;
+}

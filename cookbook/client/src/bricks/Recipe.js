@@ -5,10 +5,12 @@ import recipeStyle from "../css/recipe.module.css";
 import placeholderImg from '../img/placeholderImg.jpg';
 import Icon from "@mdi/react";
 import { mdiChefHat, mdiStove } from "@mdi/js";
+//konstanty
+import { RECIPE_DETAIL } from "./constants/RecipeConstants";
 
 function Recipe(props) {
     return (
-      <Card className={recipeStyle.recipe}>
+      <Card className={props.cardSize === RECIPE_DETAIL.LARGE ? recipeStyle.recipeLarge : recipeStyle.recipeSmall}>
         <Card.Img className={recipeStyle.recipeImg} src={props.recipe.imgUri}
             onError={(e) => {
              e.target.onerror = null;
@@ -19,7 +21,7 @@ function Recipe(props) {
             <Icon path={mdiChefHat} size={0.95} color="grey" />{" "}
             {props.recipe.name}
           </Card.Title>
-          <Card.Text className={recipeStyle.recipeDescription}>
+          <Card.Text className={props.cardSize === RECIPE_DETAIL.LARGE ? recipeStyle.recipeDescription: recipeStyle.smallDescription}>
             <Icon path={mdiStove} size={0.75} color="grey" />{" "}
             {props.recipe.description}
           </Card.Text>  
