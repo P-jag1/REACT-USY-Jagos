@@ -1,4 +1,12 @@
 .cookbookHeader {
+    position: sticky;
+    top: 0;
+    padding: 10px;
     text-align: center;
     color: #8D493A;
+    background-color: #CEAB93;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    z-index: 1000;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 13px;
   }
