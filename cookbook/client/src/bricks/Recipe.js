@@ -21,7 +21,7 @@ function Recipe(props) {
             <Icon path={mdiChefHat} size={0.95} color="grey" />{" "}
             {props.recipe.name}
           </Card.Title>
-          <Card.Text className={props.cardSize === RECIPE_DETAIL.LARGE ? recipeStyle.recipeDescription: recipeStyle.smallDescription}>
+          <Card.Text className={props.cardSize === RECIPE_DETAIL.LARGE ? recipeStyle.recipeLargeDescription: recipeStyle.recipeSmallDescription}>
             <Icon path={mdiStove} size={0.75} color="grey" />{" "}
             {props.recipe.description}
           </Card.Text>  

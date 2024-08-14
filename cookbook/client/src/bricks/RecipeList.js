@@ -1,11 +1,12 @@
-import React, { useState } from "react"; 
+import React, { useState, useMemo } from "react"; 
 import RecipeGridList from "./RecipeGridList";
 import RecipeTableList from "./RecipeTableList";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Icon from "@mdi/react";
-import { mdiTable, mdiViewGridOutline } from "@mdi/js";
+import { mdiTable, mdiViewGridOutline, mdiMagnify } from "@mdi/js";
 import recipeStyle from "../css/recipeList.module.css";
+import Form from "react-bootstrap/Form";
 //konstanty
 import { RECIPE_DETAIL, RECIPE_VIEWS } from "./constants/RecipeConstants";
 
@@ -15,6 +16,26 @@ function RecipeList(props) {
   const [viewType, setViewType] = useState(RECIPE_VIEWS.GRID);
   const isGrid = viewType === RECIPE_VIEWS.GRID;
   const [cardSize, setCardSize] = useState(RECIPE_DETAIL.SMALL);
+  const [searchBy, setSearchBy] = useState("");
+
+  const filteredRecipeList = useMemo(() => {
+    return props.recipeList.filter((item) => {
+      return (
+        item.name
+          .toLocaleLowerCase()
+          .includes(searchBy.toLocaleLowerCase())
+      );
+    });
+  }, [searchBy, props.recipeList]);
+
+  function handleSearch(event) {
+    event.preventDefault();
+    setSearchBy(event.target["searchInput"].value);
+  }
+
+  function handleSearchDelete(event) {
+    if (!event.target.value) setSearchBy("");
+  }
 
   function handleViewTypeChange() {
     setViewType((currentState) => {
@@ -32,25 +53,38 @@ function RecipeList(props) {
 
   return (
     <div>
-      <Navbar>
-        <div className="container-fluid">
-          <Navbar.Brand>Co Uvařit</Navbar.Brand>
+      <Navbar className={recipeStyle.navbarList} expand="lg">
+        <div className={`d-flex justify-content-between w-100 ${recipeStyle.menu}`}>
+          <Navbar.Brand>Seznam Receptů</Navbar.Brand>
           <div className={recipeStyle.recipeButtonContainer}>
-            {isGrid && 
-            <Button className={recipeStyle.recipeButton} onClick={handleCardSizeChange}>
-              {cardSize === RECIPE_DETAIL.LARGE ? "Malé Recepty" : "Velké Recepty"}
-            </Button>}
-            <Button className={recipeStyle.recipeButton} onClick={handleViewTypeChange}>
-              <Icon size={1} path={isGrid ? mdiTable : mdiViewGridOutline} /> {" "}
-              {isGrid ? "Tabulka" : "Seznam"}
-            </Button>
+           <Form className="d-flex" onSubmit={handleSearch}>
+              <Form.Control
+                id={"searchInput"}
+                style={{ maxWidth: "150px" }}
+                type="search"
+                placeholder="Vyhledat"
+                aria-label="Vyhledat"
+                onChange={handleSearchDelete}
+              />
+              <Button className={recipeStyle.recipeButton} variant="outline-success" type="submit">
+                <Icon size={1} path={mdiMagnify} />
+              </Button>
+              {isGrid && 
+              <Button className={recipeStyle.recipeButton} onClick={handleCardSizeChange}>
+                {cardSize === RECIPE_DETAIL.LARGE ? "Malé Recepty" : "Velké Recepty"}
+              </Button>}
+              <Button className={recipeStyle.recipeButton} onClick={handleViewTypeChange}>
+                <Icon size={1} path={isGrid ? mdiTable : mdiViewGridOutline} /> {" "}
+                {isGrid ? "Tabulka" : "Seznam"}
+              </Button>
+            </Form>
           </div>
         </div>
       </Navbar>
       {isGrid ? (
-        <RecipeGridList recipeList={props.recipeList} cardSize={cardSize}/>
+        <RecipeGridList recipeList={filteredRecipeList} cardSize={cardSize}/>
       ) : (
-        <RecipeTableList recipeList={props.recipeList} />
+        <RecipeTableList recipeList={filteredRecipeList} />
       )}
     </div>
   );

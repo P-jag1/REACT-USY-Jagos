@@ -1,24 +1,58 @@
+/* ------------------------- CSS for small detail ---------------------------- */
+
 .recipeSmall {
-    display: flex;
-    flex-direction: row;
+    width: 150px;
     height: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem auto;
     transition: 0.7s;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 13px;
 }
 
+.recipeSmallDescription {
+    text-align: justify;
+    color: #272727;
+    font-size: 0.875rem;  
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+}
+
+.recipeSmall:hover {
+    transform: scale(1.05);
+    filter: brightness(1.08);
+}
+
+/* ------------------------- CSS for large detail ---------------------------- */
+
 .recipeLarge {
     display: flex;
     flex-direction: row;
+    width: 75%;
     height: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem auto;
     transition: 0.7s;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 13px;
 }
+
+.recipeLargeDescription {
+    text-align: justify;
+    color: #272727;
+    font-size: 0.875rem;  
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.recipeLarge:hover {
+    transform: scale(1.05);
+    filter: brightness(1.08);
+}
+
+/* ------------------------- CSS for rest of Recipe Card ---------------------------- */
 
 .recipeImg {
     width: 150px;
@@ -38,42 +72,12 @@
     padding: 1rem;
 }
 
-.recipeDescription {
-    text-align: justify;
-    color: #272727;
-    font-size: 0.875rem;  
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-}
-
-.smallDescription {
-    text-align: justify;
-    color: #272727;
-    font-size: 0.875rem;  
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;  
-}
-
 .recipeButton {
     background-color: #CEAB93;
     border: 1px solid #CEAB93;
     color: #272727;
     transition: 0.5s;  
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.recipeSmall:hover {
-    transform: scale(1.05);
-    filter: brightness(1.08);
-}
-
-.recipeLarge:hover {
-    transform: scale(1.05);
-    filter: brightness(1.08);
 }
 
 .recipeButton:hover {
