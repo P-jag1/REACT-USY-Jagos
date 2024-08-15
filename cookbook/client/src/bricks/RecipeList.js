@@ -56,33 +56,31 @@ function RecipeList(props) {
       <Navbar className={recipeStyle.navbarList} expand="lg">
         <div className={`d-flex justify-content-between w-100 ${recipeStyle.menu}`}>
           <Navbar.Brand>Seznam Receptů</Navbar.Brand>
-          <div className={recipeStyle.recipeButtonContainer}>
-           <Form className="d-flex" onSubmit={handleSearch}>
+           <Form className={recipeStyle.recipeButtonContainer} onSubmit={handleSearch}>
               <Form.Control
                 id={"searchInput"}
-                style={{ maxWidth: "150px" }}
+                style={{ maxWidth: "200px" }}
                 type="search"
-                placeholder="Vyhledat"
-                aria-label="Vyhledat"
+                placeholder="Hledat"
+                aria-label="Hledat"
                 onChange={handleSearchDelete}
               />
               <Button className={recipeStyle.recipeButton} variant="outline-success" type="submit">
-                <Icon size={1} path={mdiMagnify} />
+                <Icon className={recipeStyle.icon} size={1} path={mdiMagnify} />
               </Button>
               {isGrid && 
               <Button className={recipeStyle.recipeButton} onClick={handleCardSizeChange}>
                 {cardSize === RECIPE_DETAIL.LARGE ? "Malé Recepty" : "Velké Recepty"}
               </Button>}
               <Button className={recipeStyle.recipeButton} onClick={handleViewTypeChange}>
-                <Icon size={1} path={isGrid ? mdiTable : mdiViewGridOutline} /> {" "}
+                <Icon className={recipeStyle.icon} size={1} path={isGrid ? mdiTable : mdiViewGridOutline} /> {" "}
                 {isGrid ? "Tabulka" : "Seznam"}
               </Button>
             </Form>
-          </div>
         </div>
       </Navbar>
       {isGrid ? (
-        <RecipeGridList recipeList={filteredRecipeList} cardSize={cardSize}/>
+        <RecipeGridList recipeList={filteredRecipeList} cardSize={cardSize} ingredientsList={props.ingredientsList}/>
       ) : (
         <RecipeTableList recipeList={filteredRecipeList} />
       )}

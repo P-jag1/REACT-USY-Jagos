@@ -17,7 +17,7 @@ function App() {
     state: STATE.PENDING,
   });
 
-  const [ingredienceListLoadCall, setingredienceListLoadCall] = useState({
+  const [ingredientListLoadCall, setingredientListLoadCall] = useState({
     state: STATE.PENDING,
   });
 
@@ -40,22 +40,22 @@ function App() {
     }).then(async (response) => {
       const responseJson = await response.json();
       if (response.status >= 400) {
-        setingredienceListLoadCall({ state: STATE.ERROR, error: responseJson });
+        setingredientListLoadCall({ state: STATE.ERROR, error: responseJson });
       } else {
-        setingredienceListLoadCall({ state: STATE.SUCCESS, data: responseJson });
+        setingredientListLoadCall({ state: STATE.SUCCESS, data: responseJson });
       }
     });
   }, []); 
 
   function getChild() {
-    if (recipeListLoadCall.state === STATE.SUCCESS && ingredienceListLoadCall.state === STATE.SUCCESS) {
+    if (recipeListLoadCall.state === STATE.SUCCESS && ingredientListLoadCall.state === STATE.SUCCESS) {
       return (
           <>
             <CookbookHeader title={title}/>
-            <RecipeList recipeList={recipeListLoadCall.data}/>
+            <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data}/>
           </>
       );
-    } else if (recipeListLoadCall.state === STATE.ERROR || ingredienceListLoadCall.state === STATE.ERROR) {
+    } else if (recipeListLoadCall.state === STATE.ERROR || ingredientListLoadCall.state === STATE.ERROR) {
         return (
           <div className={appStyles.error}>
             <div>Ajajaj něco se pokazilo</div>

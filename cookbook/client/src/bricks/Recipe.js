@@ -11,7 +11,7 @@ import { RECIPE_DETAIL } from "./constants/RecipeConstants";
 function Recipe(props) {
     return (
       <Card className={props.cardSize === RECIPE_DETAIL.LARGE ? recipeStyle.recipeLarge : recipeStyle.recipeSmall}>
-        <Card.Img className={recipeStyle.recipeImg} src={props.recipe.imgUri}
+        <Card.Img className={props.cardSize === RECIPE_DETAIL.LARGE ? recipeStyle.recipeImgLarge : recipeStyle.recipeImgSmall} src={props.recipe.imgUri}
             onError={(e) => {
              e.target.onerror = null;
              e.target.src = placeholderImg;
@@ -24,7 +24,18 @@ function Recipe(props) {
           <Card.Text className={props.cardSize === RECIPE_DETAIL.LARGE ? recipeStyle.recipeLargeDescription: recipeStyle.recipeSmallDescription}>
             <Icon path={mdiStove} size={0.75} color="grey" />{" "}
             {props.recipe.description}
-          </Card.Text>  
+          </Card.Text> 
+          {props.cardSize !== RECIPE_DETAIL.LARGE && (
+          <Card.Text className={recipeStyle.recipeIngredientsSmall}> 
+              <ul>
+                {props.recipe.ingredients.map((ingredient) => (
+                  <li key={ingredient.id}>
+                    {props.ingredientsList.find((ingredientInList) => ingredientInList.id === ingredient.id).name}
+                  </li>
+                ))}
+              </ul>
+          </Card.Text>   
+           )}  
           <Button className={recipeStyle.recipeButton}>
             Více...
           </Button>  

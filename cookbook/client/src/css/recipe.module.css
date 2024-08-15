@@ -1,7 +1,7 @@
 /* ------------------------- CSS for small detail ---------------------------- */
 
 .recipeSmall {
-    width: 150px;
+    width: 300px;
     height: auto;
     margin: 1rem auto;
     transition: 0.7s;
@@ -17,6 +17,30 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;  
+}
+
+.recipeGridSmallContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 75%;
+    margin: 0 auto;
+}
+
+.recipeIngredientsSmall {
+    text-align: justify;
+    color: #272727;
+    font-size: 0.875rem;  
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; 
+}
+
+.recipeImgSmall {
+    width: auto;
+    height: 150px; 
+    object-fit: cover;
 }
 
 .recipeSmall:hover {
@@ -52,13 +76,13 @@
     filter: brightness(1.08);
 }
 
-/* ------------------------- CSS for rest of Recipe Card ---------------------------- */
-
-.recipeImg {
-    width: 150px;
+.recipeImgLarge {
+    width: auto;
     height: auto; 
     object-fit: cover;
 }
+
+/* ------------------------- CSS for rest of Recipe Card ---------------------------- */
 
 .recipeName {
     font-size: 1.4rem;

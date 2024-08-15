@@ -1,6 +1,7 @@
 .recipeButtonContainer {
     display: flex;
     justify-content: center;
+    margin-left: 10%
 }
 
 .recipeButton {
@@ -32,4 +33,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-left: 10%;
   }
+
+  .icon {
+    background-color: #CEAB93;
+    transition: 0.5s;
+}
+
+.recipeButton:hover .icon {
+    background-color: #E3CAA5;
+}
