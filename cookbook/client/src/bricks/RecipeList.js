@@ -14,9 +14,10 @@ import { RECIPE_DETAIL, RECIPE_VIEWS } from "./constants/RecipeConstants";
 
 function RecipeList(props) {
   const [viewType, setViewType] = useState(RECIPE_VIEWS.GRID);
-  const isGrid = viewType === RECIPE_VIEWS.GRID;
   const [cardSize, setCardSize] = useState(RECIPE_DETAIL.SMALL);
   const [searchBy, setSearchBy] = useState("");
+
+  const isGrid = viewType === RECIPE_VIEWS.GRID;
 
   const filteredRecipeList = useMemo(() => {
     return props.recipeList.filter((item) => {

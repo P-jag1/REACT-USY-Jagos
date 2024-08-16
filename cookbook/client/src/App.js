@@ -13,13 +13,8 @@ const title= {
 };
 
 function App() {
-  const [recipeListLoadCall, setRecipeListLoadCall] = useState({
-    state: STATE.PENDING,
-  });
-
-  const [ingredientListLoadCall, setingredientListLoadCall] = useState({
-    state: STATE.PENDING,
-  });
+  const [recipeListLoadCall, setRecipeListLoadCall] = useState({state: STATE.PENDING,});
+  const [ingredientListLoadCall, setingredientListLoadCall] = useState({state: STATE.PENDING,});
 
   useEffect(() => {
     fetch(`http://localhost:3000/recipe/list`, {
@@ -31,6 +26,8 @@ function App() {
       } else {
         setRecipeListLoadCall({ state: STATE.SUCCESS, data: responseJson });
       }
+    }).catch((error)=>{
+      setRecipeListLoadCall({ state: STATE.ERROR, error: error });
     });
   }, []);
 
@@ -44,6 +41,8 @@ function App() {
       } else {
         setingredientListLoadCall({ state: STATE.SUCCESS, data: responseJson });
       }
+    }).catch((error)=>{
+      setingredientListLoadCall({ state: STATE.ERROR, error: error });
     });
   }, []); 
 
