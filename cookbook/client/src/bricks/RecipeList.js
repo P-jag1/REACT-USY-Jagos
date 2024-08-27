@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from "react"; 
 import RecipeGridList from "./RecipeGridList";
 import RecipeTableList from "./RecipeTableList";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
 import Icon from "@mdi/react";
 import { mdiTable, mdiViewGridOutline, mdiMagnify } from "@mdi/js";
+import { useMediaQuery } from 'react-responsive';
 import recipeStyle from "../css/recipeList.module.css";
-import Form from "react-bootstrap/Form";
+import { Navbar, Form, Button } from 'react-bootstrap';
 //konstanty
 import { RECIPE_DETAIL, RECIPE_VIEWS } from "./constants/RecipeConstants";
 
@@ -17,7 +16,10 @@ function RecipeList(props) {
   const [cardSize, setCardSize] = useState(RECIPE_DETAIL.SMALL);
   const [searchBy, setSearchBy] = useState("");
 
-  const isGrid = viewType === RECIPE_VIEWS.GRID;
+  //const pro view
+  const isPhone = useMediaQuery({ query: '(max-width: 500px)' });
+  const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
+  const isGrid = isTablet ? true : viewType === RECIPE_VIEWS.GRID;
 
   const filteredRecipeList = useMemo(() => {
     return props.recipeList.filter((item) => {
@@ -54,34 +56,43 @@ function RecipeList(props) {
 
   return (
     <div>
-      <Navbar className={recipeStyle.navbarList} expand="lg">
-        <div className={`d-flex justify-content-between w-100 ${recipeStyle.menu}`}>
+      <Navbar expand="lg" className={recipeStyle.navbarList}>
+        <div className="container-fluid">
           <Navbar.Brand>Seznam Receptů</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav" className={recipeStyle.navbarCollapse}>
+          <div>
            <Form className={recipeStyle.recipeButtonContainer} onSubmit={handleSearch}>
-              <Form.Control
-                id={"searchInput"}
-                style={{ maxWidth: "200px" }}
-                type="search"
-                placeholder="Hledat"
-                aria-label="Hledat"
-                onChange={handleSearchDelete}
-              />
+              <Form.Control id={"searchInput"} style={{ maxWidth: "200px" }} type="search" placeholder="Hledat" aria-label="Hledat" onChange={handleSearchDelete}/>
               <Button className={recipeStyle.recipeButton} variant="outline-success" type="submit">
-                <Icon className={recipeStyle.icon} size={1} path={mdiMagnify} />
+                  <Icon className={recipeStyle.icon} size={1} path={mdiMagnify} />
               </Button>
-              {isGrid && 
-              <Button className={recipeStyle.recipeButton} onClick={handleCardSizeChange}>
-                {cardSize === RECIPE_DETAIL.LARGE ? "Malé Recepty" : "Velké Recepty"}
-              </Button>}
-              <Button className={recipeStyle.recipeButton} onClick={handleViewTypeChange}>
-                <Icon className={recipeStyle.icon} size={1} path={isGrid ? mdiTable : mdiViewGridOutline} /> {" "}
-                {isGrid ? "Tabulka" : "Seznam"}
-              </Button>
+              {!isPhone && (
+                <>
+                  {isGrid && 
+                    <Button className={recipeStyle.recipeButton} onClick={handleCardSizeChange}>
+                      {cardSize === RECIPE_DETAIL.LARGE ? "Malé Recepty" : "Velké Recepty"}
+                    </Button>
+                  }
+                  {!isTablet && 
+                    <Button className={recipeStyle.recipeButton} onClick={handleViewTypeChange}>
+                      <Icon className={recipeStyle.icon} size={1} path={isGrid ? mdiTable : mdiViewGridOutline} /> {" "}
+                      {isGrid ? "Tabulka" : "Seznam"}
+                    </Button>
+                  }
+                </>
+              )}
             </Form>
+          </div>
+          </Navbar.Collapse>
         </div>
       </Navbar>
       {isGrid ? (
-        <RecipeGridList recipeList={filteredRecipeList} cardSize={cardSize} ingredientsList={props.ingredientsList}/>
+        <RecipeGridList
+          recipeList={filteredRecipeList}
+          cardSize={isPhone ? RECIPE_DETAIL.SMALL : cardSize} //pokud na isPhone je true, tak se bude zobrazovat pouze malý detail
+          ingredientsList={props.ingredientsList}
+        />
       ) : (
         <RecipeTableList recipeList={filteredRecipeList} />
       )}

@@ -1,7 +1,27 @@
+.recipeHeader {
+    text-align: center;
+    color: #CEAB93;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10%;
+  }
+
+.icon {
+    background-color: #CEAB93;
+    transition: 0.5s;
+}
+
+/****************************** Buttons ******************************/
+
 .recipeButtonContainer {
     display: flex;
-    justify-content: center;
-    margin-left: 10%
+    flex-direction: row;
+    gap: 10px;
+    margin-right: 20px;
 }
 
 .recipeButton {
@@ -19,28 +39,23 @@
     color: #272727;
 }
 
-.navbarList {
-  position: sticky;
-  top: 75px;  
-  width: 100%;
-  margin-bottom: 50px;
-  background-color: white;
-  z-index: 999; 
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-}
-
-.menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 10%;
-  }
-
-.icon {
-    background-color: #CEAB93;
-    transition: 0.5s;
-}
-
 .recipeButton:hover .icon {
     background-color: #E3CAA5;
+}
+
+/****************************** Navbar ******************************/
+
+.navbarList {
+    position: sticky;
+    top: 75px;
+    width: 100%;
+    background-color: white;
+    z-index: 999;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  }
+
+.navbarCollapse {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
 }
