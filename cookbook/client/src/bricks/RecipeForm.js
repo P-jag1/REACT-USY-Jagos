@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Modal, Form, Button } from "react-bootstrap";
@@ -8,16 +7,16 @@ import modalStyles from "../css/recipeForm.module.css";
 
 const MAX_DESCRIPTION_LENGTH = 1500;
 
-function RecipeForm({ setNewRecipe, ingredientsList }) {
-    const [recipeData, setRecipeData] = useState({
-        name: "",
-        description: "",
-        imgUri: "",
-        ingredients: [{ id: "", amount: "", unit: "" }],
-    });
+function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList }) {
+    const initialRecipeData = {
+        id: recipe?.id || "",
+        name: recipe?.name || "",
+        description: recipe?.description || "",
+        imgUri: recipe?.imgUri || "",
+        ingredients: recipe?.ingredients || [{ id: "", amount: "", unit: "" }],
+    };
 
-    const units = ['ks', 'l', 'ml', 'g', 'kg', 'lžíce', 'lžička', 'špetka'];
-
+    const [recipeData, setRecipeData] = useState(initialRecipeData);
     const [validated, setValidated] = useState(false);
     const [errors, setErrors] = useState({
         description: false,
@@ -25,20 +24,24 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
         duplicateIngredients: false,
     });
 
+    const units = ['ks', 'l', 'ml', 'g', 'kg', 'lžíce', 'lžička', 'špetka'];
+
+    useEffect(() => {
+        setRecipeData(initialRecipeData);
+    }, [isEditRecipe, recipe]);
+
     const stripHtmlTags = (html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
     };
-    
 
     const updateRecipeData = (field, value) => {
         setRecipeData(prev => ({ ...prev, [field]: value }));
     };
 
     const handleIngredientUpdate = (index, field, value) => {
-        const updatedIngredients = recipeData.ingredients.map((ingredient, i) =>
-            i === index ? { ...ingredient, [field]: value } : ingredient
-        );
+        const updatedIngredients = [...recipeData.ingredients];
+        updatedIngredients[index] = { ...updatedIngredients[index], [field]: value };
         updateRecipeData("ingredients", updatedIngredients);
     };
 
@@ -48,71 +51,64 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
     };
 
     const handleDeleteIngredient = (index) => {
-        updateRecipeData("ingredients", recipeData.ingredients.filter((_, i) => i !== index));
+        const updatedIngredients = recipeData.ingredients.filter((_, i) => i !== index);
+        updateRecipeData("ingredients", updatedIngredients);
+    };
+
+    const validateForm = () => {
+        const isDescriptionEmpty = !stripHtmlTags(recipeData.description).trim();
+        const hasEmptyIngredient = recipeData.ingredients.some(ingredient => !ingredient.id || !ingredient.amount || !ingredient.unit);
+
+        setErrors({
+            description: isDescriptionEmpty,
+            ingredients: hasEmptyIngredient,
+            duplicateIngredients: hasDuplicateIngredients(),
+        });
+
+        return !isDescriptionEmpty && !hasEmptyIngredient && !hasDuplicateIngredients();
+    };
+
+    const hasDuplicateIngredients = () => {
+        const ingredientIds = recipeData.ingredients.map(ingredient => ingredient.id);
+        return new Set(ingredientIds).size !== ingredientIds.length;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        if (hasDuplicateIngredients()) {
-            setErrors(prev => ({ ...prev, duplicateIngredients: true }));
-            return;
-        }
-
         if (!validateForm()) {
             setValidated(true);
             return;
         }
 
+        const endpoint = isEditRecipe ? 'http://localhost:3000/recipe/update' : 'http://localhost:3000/recipe/create';
         const formDataToSend = {
-            name: recipeData.name,
+            ...recipeData,
             description: stripHtmlTags(recipeData.description),
-            imgUri: recipeData.imgUri,
-            ingredients: recipeData.ingredients.map((ingredient) => ({
-              id: ingredient.id,
-              amount: parseFloat(ingredient.amount), 
-              unit: ingredient.unit,
+            ingredients: recipeData.ingredients.map(ingredient => ({
+                id: ingredient.id,
+                amount: parseFloat(ingredient.amount),
+                unit: ingredient.unit,
             })),
-          };
+        };
 
-          try {
-            const response = await fetch('http://localhost:3000/recipe/create', { 
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(formDataToSend),
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formDataToSend),
             });
-      
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-      
+
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
             const result = await response.json();
             console.log(result);
             handleClose();
-          } catch (error) {
+            window.location.reload();
+        } catch (error) {
             console.error('Chyba odeslání formuláře:', error);
-          }
-    };
-
-    const validateForm = () => {
-        const isDescriptionEmpty = !recipeData.description.trim();
-        const hasEmptyIngredient = recipeData.ingredients.some(ingredient => !ingredient.id || !ingredient.amount || !ingredient.unit);
-        
-        setErrors(prev => ({
-            ...prev,
-            description: isDescriptionEmpty,
-            ingredients: hasEmptyIngredient,
-        }));
-
-        return !isDescriptionEmpty && !hasEmptyIngredient && !hasDuplicateIngredients();
-    };
-
-    const hasDuplicateIngredients = () => {
-        const ingredientIds = recipeData.ingredients.map((ingredient) => ingredient.id);
-        return new Set(ingredientIds).size !== ingredientIds.length;
+        }
     };
 
     const handleDescriptionChange = (value) => {
@@ -121,12 +117,8 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
 
     const debouncedDescriptionChange = useCallback(
         debounce((value) => {
-            if (value.length <= MAX_DESCRIPTION_LENGTH) {
-                updateRecipeData("description", value);
-                setErrors(prev => ({ ...prev, description: false }));
-            } else {
-                setErrors(prev => ({ ...prev, description: true }));
-            }
+            updateRecipeData("description", value);
+            setErrors(prev => ({ ...prev, description: value.length > MAX_DESCRIPTION_LENGTH }));
         }, 300),
         []
     );
@@ -137,7 +129,7 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
         <Modal show onHide={handleClose} className={modalStyles.modal}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Modal.Header closeButton>
-                    <Modal.Title className={modalStyles.title}>Přidat recept</Modal.Title>
+                    <Modal.Title className={modalStyles.title}>{isEditRecipe ? "Upravit Recept" : "Přidat Recept"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group className="mb-3">
@@ -178,8 +170,8 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
                                     onChange={(e) => handleIngredientUpdate(index, "id", e.target.value)}
                                 >
                                     <option value="" disabled hidden>Ingredience</option>
-                                    {ingredientsList.map((ingredientOption, id) => (
-                                        <option key={id} value={ingredientOption.id}>
+                                    {ingredientsList.map(ingredientOption => (
+                                        <option key={ingredientOption.id} value={ingredientOption.id}>
                                             {ingredientOption.name}
                                         </option>
                                     ))}
@@ -195,29 +187,27 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
                                     onChange={(e) => handleIngredientUpdate(index, "amount", e.target.value)}
                                 />
                                 <Form.Select
-                                    type="text"
-                                    placeholder="Jednotky"
                                     value={ingredient.unit}
                                     required
                                     onChange={(e) => handleIngredientUpdate(index, "unit", e.target.value)}
                                 >
-                                <option value="">Jednotky</option>
-                                    {units.map((unit, i) => (
-                                <option key={i} value={unit}>{unit}</option>
-                                 ))}
+                                    <option value="">Jednotky</option>
+                                    {units.map(unit => (
+                                        <option key={unit} value={unit}>{unit}</option>
+                                    ))}
                                 </Form.Select>
-                                {index > 0 &&
+                                {index > 0 && (
                                     <Button className={modalStyles.modalButtonRemove} onClick={() => handleDeleteIngredient(index)}>
                                         X
                                     </Button>
-                                }
+                                )}
                             </div>
                         ))}
                         {errors.ingredients && (
                             <p className="text-danger">Vyplňte prosím všechny údaje o ingredincích</p>
                         )}
                         {errors.duplicateIngredients && (
-                            <p className="text-danger">Tato Ingredience již existuje.</p>
+                            <p className="text-danger">Tato ingredience již existuje.</p>
                         )}
                         <Button className={modalStyles.modalButton} onClick={handleNewIngredient}>
                             Nová ingredience
@@ -228,7 +218,7 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
                             Zavřít
                         </Button>
                         <Button className={modalStyles.modalButton} type="submit">
-                            Přidat recept
+                            {isEditRecipe ? "Uložit Recept" : "Přidat Recept"}
                         </Button>
                     </Modal.Footer>
                 </Modal.Body>

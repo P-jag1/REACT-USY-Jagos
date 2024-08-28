@@ -102,6 +102,7 @@
     color: #272727;
     transition: 0.5s;  
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    margin-right: 10px;
 }
 
 .recipeButton:hover {
