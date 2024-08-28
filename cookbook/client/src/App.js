@@ -1,79 +1,50 @@
-import appStyles from './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from "react";
-import Icon from "@mdi/react";
-import { mdiLoading } from "@mdi/js";
-import CookbookHeader from "./bricks/CookbookHeader";
-import RecipeList from "./bricks/RecipeList";
-//konstanty
-import { STATE, REQUEST_TYPE } from "./bricks/constants/ServerRequestStates";
-
-const title= {
-  name: "Vymazlená Kuchařka",
-};
+import React from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useState} from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
+import Offcanvas from 'react-bootstrap/Offcanvas'; 
+import Nav from 'react-bootstrap/Nav';
+import appStyles from './App.css';
+import navbarStyles from './css/mainNavbar.module.css';
 
 function App() {
-  const [recipeListLoadCall, setRecipeListLoadCall] = useState({state: STATE.PENDING,});
-  const [ingredientListLoadCall, setingredientListLoadCall] = useState({state: STATE.PENDING,});
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`http://localhost:3000/recipe/list`, {
-      method: REQUEST_TYPE.GET,
-    }).then(async (response) => {
-      const responseJson = await response.json();
-      if (response.status >= 400) {
-        setRecipeListLoadCall({ state: STATE.ERROR, error: responseJson });
-      } else {
-        setRecipeListLoadCall({ state: STATE.SUCCESS, data: responseJson });
-      }
-    }).catch((error)=>{
-      setRecipeListLoadCall({ state: STATE.ERROR, error: error });
-    });
-  }, []);
-
-  useEffect(() => {
-    fetch(`http://localhost:3000/ingredient/list`, { 
-      method: REQUEST_TYPE.GET,
-    }).then(async (response) => {
-      const responseJson = await response.json();
-      if (response.status >= 400) {
-        setingredientListLoadCall({ state: STATE.ERROR, error: responseJson });
-      } else {
-        setingredientListLoadCall({ state: STATE.SUCCESS, data: responseJson });
-      }
-    }).catch((error)=>{
-      setingredientListLoadCall({ state: STATE.ERROR, error: error });
-    });
-  }, []); 
-
-  function getChild() {
-    if (recipeListLoadCall.state === STATE.SUCCESS && ingredientListLoadCall.state === STATE.SUCCESS) {
-      return (
-          <>
-            <CookbookHeader title={title}/>
-            <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data}/>
-          </>
-      );
-    } else if (recipeListLoadCall.state === STATE.ERROR || ingredientListLoadCall.state === STATE.ERROR) {
-        return (
-          <div className={appStyles.error}>
-            <div>Ajajaj něco se pokazilo</div>
-            <br />
-            <pre>{JSON.stringify(recipeListLoadCall.error, null, 2)}</pre>
-          </div>
-        );
-    } else {
-        return (
-          <div className={appStyles.loading}>
-            <Icon size={2} path={mdiLoading} spin={true} />
-          </div>
-        );
-    }
-  }
+  const handleClose = () => setShowOffcanvas(false);
+  const handleShow = () => setShowOffcanvas(true);
 
   return (
-    <div className="App">
-      {getChild()}
+    <div>
+      <Navbar className={navbarStyles.mainNavbar} expand={"sm"}>
+        <Container fluid>
+          <Navbar.Brand onClick={() => navigate("/")}>
+            Vymazlená Kuchařka
+          </Navbar.Brand>
+          <Navbar.Toggle className={navbarStyles.customToggle} aria-controls={`offcanvasNavbar-expand-sm`} onClick={handleShow}/>
+          <Navbar.Offcanvas id={`offcanvasNavbar-expand-sm`} show={showOffcanvas} onHide={handleClose}>
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-sm`} onClick={() => { navigate('/'); handleClose(); }}>
+              Vymazlená Kuchařka
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <Nav>
+                <Nav.Link onClick={() => {navigate('/recipeList'); handleClose();}}>
+                  Recepty
+                </Nav.Link>
+                <Nav.Link onClick={() => {navigate('/ingredientList'); handleClose();}}>
+                  Ingredience
+                </Nav.Link>
+              </Nav>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+        </Container>
+      </Navbar>
+
+      <Outlet />
     </div>
   );
 }

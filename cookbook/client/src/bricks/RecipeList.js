@@ -59,7 +59,7 @@ function RecipeList(props) {
       <Navbar expand="lg" className={recipeStyle.navbarList}>
         <div className="container-fluid">
           <Navbar.Brand>Seznam Receptů</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" ><span>+</span></ Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav" className={recipeStyle.navbarCollapse}>
           <div>
            <Form className={recipeStyle.recipeButtonContainer} onSubmit={handleSearch}>
