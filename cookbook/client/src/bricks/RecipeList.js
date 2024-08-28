@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react"; 
 import RecipeGridList from "./RecipeGridList";
 import RecipeTableList from "./RecipeTableList";
+import RecipeForm from "./RecipeForm";
 import Icon from "@mdi/react";
 import { mdiTable, mdiViewGridOutline, mdiMagnify } from "@mdi/js";
 import { useMediaQuery } from 'react-responsive';
@@ -15,6 +16,7 @@ function RecipeList(props) {
   const [viewType, setViewType] = useState(RECIPE_VIEWS.GRID);
   const [cardSize, setCardSize] = useState(RECIPE_DETAIL.SMALL);
   const [searchBy, setSearchBy] = useState("");
+  const [newRecipe, setNewRecipe] = useState(false);
 
   //const pro view
   const isPhone = useMediaQuery({ query: '(max-width: 500px)' });
@@ -54,6 +56,8 @@ function RecipeList(props) {
       })
   }
 
+  const handleNewRecipe = () => setNewRecipe(true);
+
   return (
     <div>
       <Navbar expand="lg" className={recipeStyle.navbarList}>
@@ -66,6 +70,9 @@ function RecipeList(props) {
               <Form.Control id={"searchInput"} style={{ maxWidth: "200px" }} type="search" placeholder="Hledat" aria-label="Hledat" onChange={handleSearchDelete}/>
               <Button className={recipeStyle.recipeButton} variant="outline-success" type="submit">
                   <Icon className={recipeStyle.icon} size={1} path={mdiMagnify} />
+              </Button>
+              <Button className={recipeStyle.recipeButton} onClick={handleNewRecipe}>
+                Nový Recept
               </Button>
               {!isPhone && (
                 <>
@@ -96,6 +103,9 @@ function RecipeList(props) {
       ) : (
         <RecipeTableList recipeList={filteredRecipeList} />
       )}
+      {newRecipe &&
+        <RecipeForm setNewRecipe={setNewRecipe} ingredientsList={props.ingredientsList}/>
+      }
     </div>
   );
 }

@@ -1,0 +1,58 @@
+.modal {
+    background-color: transparent;
+}
+
+.title {
+    color: #8D493A !important;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.modalButton {
+    background-color: #CEAB93;
+    border: 1px solid #CEAB93;
+    color: #272727;
+    transition: 0.5s;  
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modalButton:hover {
+    transform: scale(1.05);
+    background-color: #E3CAA5;
+    border: 1px solid #E3CAA5;
+    color: #272727;
+}
+
+.modalButtonRemove {
+    background-color: rgb(252, 52, 52);
+    border: 1px solid rgb(252, 52, 52);
+    color: #272727;
+    transition: 0.5s;  
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modalButtonRemove:hover {
+    transform: scale(1.05);
+    background-color: rgb(199, 0, 0);
+    border: 1px solid rgb(199, 0, 0);
+    color: #272727;
+}
+
+.modalButtonClose {
+    background-color: #c4c4c4;
+    border: 1px solid #c4c4c4;
+    color: #272727;
+    transition: 0.5s;  
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modalButtonClose:hover {
+    transform: scale(1.05);
+    background-color: #a7a7a7;
+    border: 1px solid #a7a7a7;
+    color: #272727;
+}
