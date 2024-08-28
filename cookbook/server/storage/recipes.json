@@ -528,5 +528,57 @@
       }
     ],
     "id": "e6a2450d6d6cd747"
+  },
+  {
+    "name": "test",
+    "description": "<p>test</p>",
+    "imgUri": "",
+    "ingredients": [
+      {
+        "id": "01ed1245cdfd005a",
+        "amount": 0.1,
+        "unit": "ks"
+      }
+    ],
+    "id": "87d8cb282b731f5d"
+  },
+  {
+    "name": "test 2",
+    "description": "<p>test odstranení html tagů</p>",
+    "imgUri": "",
+    "ingredients": [
+      {
+        "id": "e0e1a7f5ccef3dff",
+        "amount": 0.6,
+        "unit": "l"
+      }
+    ],
+    "id": "75d705c3dfa891b3"
+  },
+  {
+    "name": "test 3",
+    "description": "<p>test <strong>test</strong> <em>test</em> <u>test</u></p>",
+    "imgUri": "",
+    "ingredients": [
+      {
+        "id": "73fd3db102b7803d",
+        "amount": 0.1,
+        "unit": "ks"
+      }
+    ],
+    "id": "6d6c9fb29c0c0459"
+  },
+  {
+    "name": "test",
+    "description": "test test test test",
+    "imgUri": "",
+    "ingredients": [
+      {
+        "id": "95ff7d609062d4db",
+        "amount": 0.1,
+        "unit": "g"
+      }
+    ],
+    "id": "cff41cd9fea76079"
   }
 ]

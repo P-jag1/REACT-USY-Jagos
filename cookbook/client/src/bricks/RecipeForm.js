@@ -16,12 +16,20 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
         ingredients: [{ id: "", amount: "", unit: "" }],
     });
 
+    const units = ['ks', 'l', 'ml', 'g', 'kg', 'lžíce', 'lžička', 'špetka'];
+
     const [validated, setValidated] = useState(false);
     const [errors, setErrors] = useState({
         description: false,
         ingredients: false,
         duplicateIngredients: false,
     });
+
+    const stripHtmlTags = (html) => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    };
+    
 
     const updateRecipeData = (field, value) => {
         setRecipeData(prev => ({ ...prev, [field]: value }));
@@ -57,8 +65,36 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
             return;
         }
 
-        console.log(recipeData);
-        handleClose();
+        const formDataToSend = {
+            name: recipeData.name,
+            description: stripHtmlTags(recipeData.description),
+            imgUri: recipeData.imgUri,
+            ingredients: recipeData.ingredients.map((ingredient) => ({
+              id: ingredient.id,
+              amount: parseFloat(ingredient.amount), 
+              unit: ingredient.unit,
+            })),
+          };
+
+          try {
+            const response = await fetch('http://localhost:3000/recipe/create', { 
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formDataToSend),
+            });
+      
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+      
+            const result = await response.json();
+            console.log(result);
+            handleClose();
+          } catch (error) {
+            console.error('Chyba odeslání formuláře:', error);
+          }
     };
 
     const validateForm = () => {
@@ -75,8 +111,8 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
     };
 
     const hasDuplicateIngredients = () => {
-        const ingredientNames = recipeData.ingredients.map(ingredient => ingredient.id);
-        return new Set(ingredientNames).size !== ingredientNames.length;
+        const ingredientIds = recipeData.ingredients.map((ingredient) => ingredient.id);
+        return new Set(ingredientIds).size !== ingredientIds.length;
     };
 
     const handleDescriptionChange = (value) => {
@@ -128,7 +164,7 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
                         />
                         {errors.description && (
                             <p className="text-danger">
-                                Popis musí být ne více než {MAX_DESCRIPTION_LENGTH} znaků.
+                                Popis nesmí být více než {MAX_DESCRIPTION_LENGTH} znaků.
                             </p>
                         )}
                     </Form.Group>
@@ -143,7 +179,7 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
                                 >
                                     <option value="" disabled hidden>Ingredience</option>
                                     {ingredientsList.map((ingredientOption, id) => (
-                                        <option key={id} value={ingredientOption.name}>
+                                        <option key={id} value={ingredientOption.id}>
                                             {ingredientOption.name}
                                         </option>
                                     ))}
@@ -153,15 +189,23 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
                                     placeholder="Množství"
                                     value={ingredient.amount}
                                     required
+                                    step="0.1"
+                                    min={0.1}
+                                    max={5000}
                                     onChange={(e) => handleIngredientUpdate(index, "amount", e.target.value)}
                                 />
-                                <Form.Control
+                                <Form.Select
                                     type="text"
                                     placeholder="Jednotky"
                                     value={ingredient.unit}
                                     required
                                     onChange={(e) => handleIngredientUpdate(index, "unit", e.target.value)}
-                                />
+                                >
+                                <option value="">Jednotky</option>
+                                    {units.map((unit, i) => (
+                                <option key={i} value={unit}>{unit}</option>
+                                 ))}
+                                </Form.Select>
                                 {index > 0 &&
                                     <Button className={modalStyles.modalButtonRemove} onClick={() => handleDeleteIngredient(index)}>
                                         X
@@ -170,10 +214,10 @@ function RecipeForm({ setNewRecipe, ingredientsList }) {
                             </div>
                         ))}
                         {errors.ingredients && (
-                            <p className="text-danger">Všechny ingredience musí být vyplněny.</p>
+                            <p className="text-danger">Vyplňte prosím všechny údaje o ingredincích</p>
                         )}
                         {errors.duplicateIngredients && (
-                            <p className="text-danger">Ingredience s tímto jménem již existuje.</p>
+                            <p className="text-danger">Tato Ingredience již existuje.</p>
                         )}
                         <Button className={modalStyles.modalButton} onClick={handleNewIngredient}>
                             Nová ingredience
