@@ -58,7 +58,7 @@ function RecipeList(props) {
     <div>
       <Navbar expand="lg" className={recipeStyle.navbarList}>
         <div className="container-fluid">
-          <Navbar.Brand>Seznam Receptů</Navbar.Brand>
+          <Navbar.Brand className={recipeStyle.title} >Seznam Receptů</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" ><span>+</span></ Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav" className={recipeStyle.navbarCollapse}>
           <div>

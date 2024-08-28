@@ -20,22 +20,22 @@ function App() {
     <div>
       <Navbar className={navbarStyles.mainNavbar} expand={"sm"}>
         <Container fluid>
-          <Navbar.Brand onClick={() => navigate("/")}>
+          <Navbar.Brand className={navbarStyles.title} onClick={() => navigate("/home")}>
             Vymazlená Kuchařka
           </Navbar.Brand>
           <Navbar.Toggle className={navbarStyles.customToggle} aria-controls={`offcanvasNavbar-expand-sm`} onClick={handleShow}/>
           <Navbar.Offcanvas id={`offcanvasNavbar-expand-sm`} show={showOffcanvas} onHide={handleClose}>
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-sm`} onClick={() => { navigate('/'); handleClose(); }}>
+              <Offcanvas.Title className={navbarStyles.title} id={`offcanvasNavbarLabel-expand-sm`} onClick={() => { navigate('/home'); handleClose(); }}>
               Vymazlená Kuchařka
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav>
-                <Nav.Link onClick={() => {navigate('/recipeList'); handleClose();}}>
+              <Nav className="justify-content-end flex-grow-1 pe-3">
+                <Nav.Link className={navbarStyles.navbarButton} onClick={() => {navigate('/recipeList'); handleClose();}}>
                   Recepty
                 </Nav.Link>
-                <Nav.Link onClick={() => {navigate('/ingredientList'); handleClose();}}>
+                <Nav.Link className={navbarStyles.navbarButton} onClick={() => {navigate('/ingredientList'); handleClose();}}>
                   Ingredience
                 </Nav.Link>
               </Nav>

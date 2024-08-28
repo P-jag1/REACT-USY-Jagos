@@ -7,10 +7,6 @@ import { mdiLoading } from "@mdi/js";
 //konstanty
 import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
 
-const title= {
-    name: "Vymazlená Kuchařka",
-  };
-  
   function RecipeListLoad() {
     const [recipeListLoadCall, setRecipeListLoadCall] = useState({state: STATE.PENDING,});
     const [ingredientListLoadCall, setingredientListLoadCall] = useState({state: STATE.PENDING,});
@@ -48,9 +44,7 @@ const title= {
     function getChild() {
       if (recipeListLoadCall.state === STATE.SUCCESS && ingredientListLoadCall.state === STATE.SUCCESS) {
         return (
-            <>
-              <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data}/>
-            </>
+            <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data}/>
         );
       } else if (recipeListLoadCall.state === STATE.ERROR || ingredientListLoadCall.state === STATE.ERROR) {
           return (

@@ -1,0 +1,32 @@
+.table {
+    padding-right: 20px;
+  }
+  
+  .Name {
+    font-size: 1.6rem;
+    color: #8D493A !important;
+  }
+  
+  .ingredient {
+    font-size: 1.2rem;
+    color: #302E4D;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .ingredient:hover {
+    color: #8D493A !important;
+    background-color: #E3CAA5;
+  }
+  
+  .icon {
+    color: #302E4D;
+    margin-right: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .ingredient:hover .icon {
+    color: #8D493A !important;
+    background-color: #E3CAA5;
+  }
