@@ -42,11 +42,33 @@ import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
         setingredientListLoadCall({ state: STATE.ERROR, error: error });
       });
     }, []); 
+
+
+    const handleUpdateRecipe = (recipe) => {
+      if (recipeListLoadCall.state === STATE.SUCCESS) {
+        const updatedRecipeList = recipeListLoadCall.data.filter((g) => g.id !== recipe.id);
+        setRecipeListLoadCall({
+          state: STATE.SUCCESS,
+          data: [...updatedRecipeList, recipe]
+        });
+      }
+    };
+    
+    const handleDeleteRecipe = (recipeId) => {
+      if (recipeListLoadCall.state === STATE.SUCCESS) {
+        setRecipeListLoadCall({
+          state: STATE.SUCCESS,
+          data: recipeListLoadCall.data.filter((recipe) => recipe.id !== recipeId)
+        });
+      }
+    };
   
     function getChild() {
       if (recipeListLoadCall.state === STATE.SUCCESS && ingredientListLoadCall.state === STATE.SUCCESS) {
         return (
-            <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data} isAuthorized={isAuthorized}/>
+            <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data} isAuthorized={isAuthorized} 
+                        handleUpdateRecipe={handleUpdateRecipe} handleDeleteRecipe={handleDeleteRecipe}
+            />
         );
       } else if (recipeListLoadCall.state === STATE.ERROR || ingredientListLoadCall.state === STATE.ERROR) {
           return (

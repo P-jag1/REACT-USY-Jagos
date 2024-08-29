@@ -22,3 +22,9 @@
 .tableRecipeButton:hover .tableIcon{
     background-color: #E3CAA5;
 }
+
+.recipeTableDescription {
+    text-align: justify;
+    color: #272727;
+    font-size: 0.875rem;  
+}

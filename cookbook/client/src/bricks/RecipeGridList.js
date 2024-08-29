@@ -9,13 +9,17 @@ function RecipeGridList(props) {
 
   if (cardSize === RECIPE_DETAIL.LARGE) {
     return recipeList.map((recipe) => (
-      <Recipe key={recipe.id} recipe={recipe} cardSize={cardSize} ingredientsList={ingredientsList} isAuthorized={props.isAuthorized}/>
+      <Recipe key={recipe.id} recipe={recipe} cardSize={cardSize} ingredientsList={ingredientsList} isAuthorized={props.isAuthorized}
+      handleUpdateRecipe={props.handleUpdateRecipe} handleDeleteRecipe={props.handleDeleteRecipe}
+      />
     ));
   } else {
     return (
       <div className={recipeStyle.recipeGridSmallContainer}>
         {recipeList.map((recipe) => (
-            <Recipe key={recipe.id} recipe={recipe} ingredientsList={ingredientsList} isAuthorized={props.isAuthorized}/>
+            <Recipe key={recipe.id} recipe={recipe} ingredientsList={ingredientsList} isAuthorized={props.isAuthorized}
+            handleUpdateRecipe={props.handleUpdateRecipe} handleDeleteRecipe={props.handleDeleteRecipe}
+            />
         ))}
       </div>
     );

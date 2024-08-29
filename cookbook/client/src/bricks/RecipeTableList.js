@@ -36,12 +36,12 @@ function RecipeTableList(props) {
             <tr key={recipe.id}>
               <td>{recipe.id}</td>
               <td>{recipe.name}</td>
-              <td>{recipe.description}</td>
+              <td className={tableStyles.recipeTableDescription}>{recipe.description}</td>
               <td>
                 <Button className={tableStyles.tableRecipeButton} onClick={() => handleEditRecipe(recipe)}>
                   <Icon className={tableStyles.tableIcon} path={mdiPencil} size={1} />
                 </Button>
-                <RecipeDelete recipeId={recipe.id} onDelete={() => handleDeleteRecipe(recipe.id)} />
+                <RecipeDelete recipeId={recipe.id} onDelete={props.handleDeleteRecipe} />
               </td>
             </tr>
           ))}
@@ -54,6 +54,7 @@ function RecipeTableList(props) {
           recipe={selectedRecipe}
           isEditRecipe={isEditRecipe}
           ingredientsList={props.ingredientsList}
+          onComplete={props.handleUpdateRecipe}
         />
       )}
     </>

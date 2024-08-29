@@ -7,7 +7,7 @@ import modalStyles from "../css/recipeForm.module.css";
 
 const MAX_DESCRIPTION_LENGTH = 1500;
 
-function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList }) {
+function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onComplete }) {
     const initialRecipeData = {
         id: recipe?.id || "",
         name: recipe?.name || "",
@@ -103,7 +103,11 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList }) {
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
             const result = await response.json();
-            console.log(result);
+            
+            if (typeof onComplete === 'function') {
+                onComplete(result);
+            }
+
             handleClose();
         } catch (error) {
             console.error('Chyba odeslání formuláře:', error);

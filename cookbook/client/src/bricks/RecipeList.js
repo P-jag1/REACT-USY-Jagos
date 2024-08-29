@@ -23,6 +23,7 @@ function RecipeList(props) {
   const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
   const isGrid = isTablet ? true : viewType === RECIPE_VIEWS.GRID;
 
+
   const filteredRecipeList = useMemo(() => {
     return props.recipeList.filter((item) => {
       return (
@@ -67,7 +68,7 @@ function RecipeList(props) {
           <Navbar.Collapse id="basic-navbar-nav" className={recipeStyle.navbarCollapse}>
           <div>
            <Form className={recipeStyle.recipeButtonContainer} onSubmit={handleSearch}>
-              <Form.Control id={"searchInput"} style={{ maxWidth: "200px" }} type="search" placeholder="Hledat" aria-label="Hledat" onChange={handleSearchDelete}/>
+              <Form.Control id={"searchInput"} style={{ maxWidth: "200px" }} type="search" placeholder="Hledat Recept" aria-label="Hledat Recept" onChange={handleSearchDelete}/>
               <Button className={recipeStyle.recipeButton} variant="outline-success" type="submit">
                   <Icon className={recipeStyle.icon} size={1} path={mdiMagnify} />
               </Button>
@@ -102,12 +103,17 @@ function RecipeList(props) {
           cardSize={isPhone ? RECIPE_DETAIL.SMALL : cardSize} //pokud na isPhone je true, tak se bude zobrazovat pouze malý detail
           ingredientsList={props.ingredientsList}
           isAuthorized={props.isAuthorized}
+          handleUpdateRecipe={props.handleUpdateRecipe} handleDeleteRecipe={props.handleDeleteRecipe}
         />
       ) : (
-        <RecipeTableList recipeList={filteredRecipeList} ingredientsList={props.ingredientsList}/>
+        <RecipeTableList recipeList={filteredRecipeList} ingredientsList={props.ingredientsList}
+        handleUpdateRecipe={props.handleUpdateRecipe} handleDeleteRecipe={props.handleDeleteRecipe}
+        />
       )}
       {newRecipe &&
-        <RecipeForm setNewRecipe={setNewRecipe} ingredientsList={props.ingredientsList}/>
+        <RecipeForm setNewRecipe={setNewRecipe} ingredientsList={props.ingredientsList}
+                    onComplete={(recipe) => props.handleUpdateRecipe(recipe)}
+        />
       }
     </div>
   );

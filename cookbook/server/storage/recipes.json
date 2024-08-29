@@ -528,18 +528,5 @@
       }
     ],
     "id": "e6a2450d6d6cd747"
-  },
-  {
-    "id": "1af8b334504f1462",
-    "name": "rwa",
-    "description": "wea",
-    "imgUri": "",
-    "ingredients": [
-      {
-        "id": "cd99517791018390",
-        "amount": 0.1,
-        "unit": "lžička"
-      }
-    ]
   }
 ]

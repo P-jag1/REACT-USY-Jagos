@@ -15,9 +15,6 @@ function Recipe(props) {
   const [isEditRecipe, setEditRecipe] = useState(false);
 
   const handleEditRecipe = () => setEditRecipe(true);
-  const handleDeleteRecipe = (recipeId) => {
-    props.onDelete(recipeId);
-  };
 
     return (
       <>
@@ -55,7 +52,7 @@ function Recipe(props) {
             <Button className={recipeStyle.recipeButton} onClick={handleEditRecipe}>
               Upravit
             </Button> 
-            <RecipeDelete recipeId={props.recipe.id} onDelete={handleDeleteRecipe} /> 
+            <RecipeDelete recipeId={props.recipe.id} onDelete={props.handleDeleteRecipe} /> 
           </>
           )}
         </Card.Body>
@@ -67,6 +64,7 @@ function Recipe(props) {
         recipe={props.recipe}
         isEditRecipe={isEditRecipe}
         ingredientsList={props.ingredientsList}
+        onComplete={props.handleUpdateRecipe}
         />
       )}
       </>
