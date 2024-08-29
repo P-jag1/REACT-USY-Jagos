@@ -43,9 +43,8 @@
     transition: 0.5s;
 }
 
-.icon {
-    background-color: #CEAB93;
-    transition: 0.5s;
+.recipeButton:hover .icon {
+    background-color: #E3CAA5;
 }
 
 /****************************** Navbar ******************************/

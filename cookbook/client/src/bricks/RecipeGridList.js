@@ -15,7 +15,7 @@ function RecipeGridList(props) {
     return (
       <div className={recipeStyle.recipeGridSmallContainer}>
         {recipeList.map((recipe) => (
-            <Recipe recipe={recipe} ingredientsList={ingredientsList} isAuthorized={props.isAuthorized}/>
+            <Recipe key={recipe.id} recipe={recipe} ingredientsList={ingredientsList} isAuthorized={props.isAuthorized}/>
         ))}
       </div>
     );

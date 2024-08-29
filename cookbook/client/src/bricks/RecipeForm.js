@@ -105,7 +105,6 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList }) {
             const result = await response.json();
             console.log(result);
             handleClose();
-            window.location.reload();
         } catch (error) {
             console.error('Chyba odeslání formuláře:', error);
         }

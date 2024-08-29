@@ -104,7 +104,7 @@ function RecipeList(props) {
           isAuthorized={props.isAuthorized}
         />
       ) : (
-        <RecipeTableList recipeList={filteredRecipeList} />
+        <RecipeTableList recipeList={filteredRecipeList} ingredientsList={props.ingredientsList}/>
       )}
       {newRecipe &&
         <RecipeForm setNewRecipe={setNewRecipe} ingredientsList={props.ingredientsList}/>
