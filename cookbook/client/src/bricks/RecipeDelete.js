@@ -56,7 +56,7 @@ export default function RecipeDelete({ recipeId, onDelete, onError }) {
   return (
   <>
     <Button className={deleteStyles.deleteRecipeButton}  onClick={(e) => { e.preventDefault(); handleShowConfirmation();}} disabled={deleteCall.state === 'pending'}>
-        <Icon className={deleteStyles.deleteIcon} path={mdiTrashCanOutline} size={1} />
+        <Icon className={deleteStyles.deleteIcon} path={mdiTrashCanOutline} size={0.85} />
     </Button>
 
     <DeleteConfirm show={showConfirmation} onHide={handleCancelConfirmation} onConfirm={handleDelete}/>

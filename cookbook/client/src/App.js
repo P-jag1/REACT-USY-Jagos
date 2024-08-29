@@ -39,7 +39,7 @@ function App() {
                 <Nav.Link className={navbarStyles.navbarButton} onClick={() => {navigate('/ingredientList'); handleClose();}}>
                   Ingredience
                 </Nav.Link>
-                <Nav.Link onClick={Authorize} className={navbarStyles.navbarButton}>
+                <Nav.Link  onClick={() => { Authorize(); handleClose(); }} className={navbarStyles.navbarButton}>
                   {isAuthorized ? 'Odhlásit' : 'Přihlásit'}
                 </Nav.Link>
               </Nav>

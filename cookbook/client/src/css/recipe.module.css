@@ -1,14 +1,5 @@
 /* ------------------------- CSS for small detail ---------------------------- */
 
-.recipeSmall {
-    width: 300px;
-    height: auto;
-    margin: 1rem auto;
-    transition: 0.7s;
-    border-radius: 12px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 13px;
-}
-
 .recipeSmallDescription {
     text-align: justify;
     color: #272727;
@@ -37,15 +28,25 @@
     -webkit-box-orient: vertical; 
 }
 
+.recipeSmall:hover {
+    transform: scale(1.05);
+    filter: brightness(1.08);
+}
+
+.recipeSmall {
+    width: 300px;
+    height: auto;
+    margin: 1rem auto;
+    transition: 0.7s;
+    border-radius: 12px; 
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 13px;
+}
+
 .recipeImgSmall {
     width: auto;
     height: 150px; 
     object-fit: cover;
-}
-
-.recipeSmall:hover {
-    transform: scale(1.05);
-    filter: brightness(1.08);
+    border-radius: 12px 12px 0 0;
 }
 
 /* ------------------------- CSS for large detail ---------------------------- */
@@ -59,6 +60,14 @@
     transition: 0.7s;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 13px;
+    overflow: hidden;
+}
+
+.recipeImgLarge {
+    width: auto;
+    height: auto; 
+    object-fit: cover;
+    border-radius: 12px 0 0 12px;
 }
 
 .recipeLargeDescription {
@@ -76,15 +85,10 @@
     filter: brightness(1.08);
 }
 
-.recipeImgLarge {
-    width: auto;
-    height: auto; 
-    object-fit: cover;
-}
-
 /* ------------------------- CSS for rest of Recipe Card ---------------------------- */
 
 .recipeName {
+    font-family: "Brush Script MT", cursive;
     font-size: 1.4rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -109,4 +113,18 @@
     background-color: #E3CAA5;
     border: 1px solid #E3CAA5;
     color: #272727;
+}
+
+@media (max-width: 330px)  {
+
+    .recipeButton {
+        background-color: #CEAB93;
+        border: 1px solid #CEAB93;
+        color: #272727;
+        transition: 0.5s ease;  
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+        margin-right: -10px;
+        scale: 0.7;
+        float: left;
+    }
 }

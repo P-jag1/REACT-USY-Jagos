@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+.text {
+    font-family: "Brush Script MT", cursive;
+    font-size: 3rem;
+    color: #8D493A;
+    background-color: #f0f0f0;
+    transition: transform 0.6s ease;
+}
+
+.text:hover {
+    transform: rotate(360deg);
+}

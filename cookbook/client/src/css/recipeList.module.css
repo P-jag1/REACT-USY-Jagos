@@ -11,6 +11,7 @@
   }
 
 .title {
+    font-family: "Brush Script MT", cursive;
     padding-left:10px;
 }
 
@@ -47,6 +48,8 @@
     background-color: #E3CAA5;
 }
 
+
+
 /****************************** Navbar ******************************/
 
 .navbarList {
@@ -63,3 +66,15 @@
     justify-content: flex-end;
     margin-top: 10px;
 }
+
+@media (max-width: 250px)  {
+
+    .title {
+      display: none;
+    }
+
+    .customToggle {
+        margin-left: auto;
+    }
+  
+  }

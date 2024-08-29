@@ -43,8 +43,26 @@ function Recipe(props) {
                 ))}
               </ul>
           </Card.Text>   
-           )}  
-          <Button className={recipeStyle.recipeButton}>
+           )}
+          {props.cardSize === RECIPE_DETAIL.LARGE && (
+            <>
+              <Button className={recipeStyle.recipeButton}>
+                Více...
+              </Button>
+              {props.isAuthorized && (
+                <>
+                  <Button className={recipeStyle.recipeButton} onClick={handleEditRecipe}>
+                    Upravit
+                  </Button>
+                  <RecipeDelete recipeId={props.recipe.id} onDelete={props.handleDeleteRecipe} />
+                </>
+              )}
+            </>
+          )}
+        </Card.Body>
+        {props.cardSize !== RECIPE_DETAIL.LARGE && (
+        <Card.Footer>
+        <Button className={recipeStyle.recipeButton}>
             Více...
           </Button> 
           {props.isAuthorized && (
@@ -54,8 +72,8 @@ function Recipe(props) {
             </Button> 
             <RecipeDelete recipeId={props.recipe.id} onDelete={props.handleDeleteRecipe} /> 
           </>
-          )}
-        </Card.Body>
+          )} 
+        </Card.Footer>)}
       </Card>
 
       {isEditRecipe && (
