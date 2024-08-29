@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import recipeStyle from "../css/recipe.module.css";
 import placeholderImg from '../img/placeholderImg.jpg';
 import RecipeForm from './RecipeForm';
+import RecipeDelete from './RecipeDelete';
 import Icon from "@mdi/react";
 import { mdiChefHat, mdiStove } from "@mdi/js";
 import { useState } from "react";
@@ -14,6 +15,9 @@ function Recipe(props) {
   const [isEditRecipe, setEditRecipe] = useState(false);
 
   const handleEditRecipe = () => setEditRecipe(true);
+  const handleDeleteRecipe = (recipeId) => {
+    props.onDelete(recipeId);
+  };
 
     return (
       <>
@@ -49,6 +53,7 @@ function Recipe(props) {
           <Button className={recipeStyle.recipeButton} onClick={handleEditRecipe}>
             Upravit
           </Button> 
+          <RecipeDelete recipeId={props.recipe.id} onDelete={handleDeleteRecipe} /> 
         </Card.Body>
       </Card>
 

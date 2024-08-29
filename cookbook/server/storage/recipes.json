@@ -530,76 +530,14 @@
     "id": "e6a2450d6d6cd747"
   },
   {
-    "name": "test rest",
+    "id": "7af3dbc3e7c25f65",
+    "name": "test",
     "description": "test",
     "imgUri": "",
     "ingredients": [
       {
-        "id": "01ed1245cdfd005a",
+        "id": "cd99517791018390",
         "amount": 0.1,
-        "unit": "ks"
-      }
-    ],
-    "id": "87d8cb282b731f5d"
-  },
-  {
-    "name": "test 2",
-    "description": "test odstranení html tagů",
-    "imgUri": "",
-    "ingredients": [
-      {
-        "id": "e0e1a7f5ccef3dff",
-        "amount": 0.6,
-        "unit": "l"
-      }
-    ],
-    "id": "75d705c3dfa891b3"
-  },
-  {
-    "name": "test 5",
-    "description": "test test test test",
-    "imgUri": "",
-    "ingredients": [
-      {
-        "id": "defe5185b23ca985",
-        "amount": 0.1,
-        "unit": "ks"
-      }
-    ],
-    "id": "6d6c9fb29c0c0459"
-  },
-  {
-    "name": "test úpravy receptu",
-    "description": "test úpravy ",
-    "imgUri": "",
-    "ingredients": [
-      {
-        "id": "95ff7d609062d4db",
-        "amount": 0.1,
-        "unit": "g"
-      },
-      {
-        "id": "f9996cfda5568262",
-        "amount": 1,
-        "unit": "lžíce"
-      },
-      {
-        "id": "157003980c0a437a",
-        "amount": 0.4,
-        "unit": "kg"
-      }
-    ],
-    "id": "cff41cd9fea76079"
-  },
-  {
-    "id": "8f6c45f1adf23137",
-    "name": "test new",
-    "description": "dsa",
-    "imgUri": "",
-    "ingredients": [
-      {
-        "id": "3f702872fb8e99f8",
-        "amount": 0.2,
         "unit": "lžička"
       }
     ]

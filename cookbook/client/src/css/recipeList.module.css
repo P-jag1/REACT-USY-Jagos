@@ -10,11 +10,6 @@
     margin-left: 10px;
   }
 
-.icon {
-    background-color: #CEAB93;
-    transition: 0.5s;
-}
-
 .title {
     padding-left:10px;
 }
@@ -43,8 +38,14 @@
     color: #272727;
 }
 
-.recipeButton:hover .icon {
-    background-color: #E3CAA5;
+.icon {
+    background-color: #CEAB93;
+    transition: 0.5s;
+}
+
+.icon {
+    background-color: #CEAB93;
+    transition: 0.5s;
 }
 
 /****************************** Navbar ******************************/

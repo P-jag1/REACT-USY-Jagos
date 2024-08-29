@@ -1,0 +1,28 @@
+.deleteRecipeButton {
+    background-color: #CEAB93;
+    border: 1px solid #CEAB93;
+    color: #272727;
+    transition: 0.5s;  
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    margin-right: 10px;
+}
+
+.deleteRecipeButton:hover {
+    background-color: #E3CAA5;
+    border: 1px solid #E3CAA5;
+    color: #272727;
+}
+
+.deleteIcon {
+    background-color: #CEAB93;
+    transition: 0.5s;
+}
+
+.deleteRecipeButton:hover .deleteIcon{
+    background-color: #E3CAA5;
+}
+
+.modalDelete {
+    background-color: transparent;
+    height: min-content;
+}

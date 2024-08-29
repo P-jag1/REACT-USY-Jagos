@@ -196,7 +196,7 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList }) {
                                         <option key={unit} value={unit}>{unit}</option>
                                     ))}
                                 </Form.Select>
-                                {index > 0 && (
+                                {recipeData.ingredients.length > 1 && (
                                     <Button className={modalStyles.modalButtonRemove} onClick={() => handleDeleteIngredient(index)}>
                                         X
                                     </Button>
