@@ -49,11 +49,15 @@ function Recipe(props) {
            )}  
           <Button className={recipeStyle.recipeButton}>
             Více...
-          </Button>  
-          <Button className={recipeStyle.recipeButton} onClick={handleEditRecipe}>
-            Upravit
           </Button> 
-          <RecipeDelete recipeId={props.recipe.id} onDelete={handleDeleteRecipe} /> 
+          {props.isAuthorized && (
+          <>
+            <Button className={recipeStyle.recipeButton} onClick={handleEditRecipe}>
+              Upravit
+            </Button> 
+            <RecipeDelete recipeId={props.recipe.id} onDelete={handleDeleteRecipe} /> 
+          </>
+          )}
         </Card.Body>
       </Card>
 

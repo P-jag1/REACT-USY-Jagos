@@ -9,6 +9,14 @@ export default function RecipeDelete({ recipeId, onDelete, onError }) {
   const [deleteCall, setDeleteCall] = useState({ state: 'inactive' });
   const [showConfirmation, setShowConfirmation] = useState(false);
 
+  const handleShowConfirmation = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleCancelConfirmation = () => {
+    setShowConfirmation(false);
+  };
+
   const handleDelete = async () => {
     setShowConfirmation(false);
     if (deleteCall.state === 'pending') return;
@@ -45,23 +53,13 @@ export default function RecipeDelete({ recipeId, onDelete, onError }) {
     }
   };
 
-  const handleShowConfirmation = () => {
-    setShowConfirmation(true);
-  };
-
-  const handleCancelConfirmation = () => {
-    setShowConfirmation(false);
-  };
-
   return (
   <>
     <Button className={deleteStyles.deleteRecipeButton} onClick={handleShowConfirmation} disabled={deleteCall.state === 'pending'}>
         <Icon className={deleteStyles.deleteIcon} path={mdiTrashCanOutline} size={1} />
     </Button>
 
-    <DeleteConfirm show={showConfirmation} onHide={handleCancelConfirmation} 
-      onConfirm={handleDelete}
-    />
+    <DeleteConfirm show={showConfirmation} onHide={handleCancelConfirmation} onConfirm={handleDelete}/>
   </>
   );
 }

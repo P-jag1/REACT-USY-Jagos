@@ -1,15 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useState} from 'react';
+import { useState, useContext} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Offcanvas from 'react-bootstrap/Offcanvas'; 
 import Nav from 'react-bootstrap/Nav';
-import appStyles from './App.css';
 import navbarStyles from './css/mainNavbar.module.css';
+import UserContext from './UserProvider';
 
 function App() {
+  const { isAuthorized, Authorize } = useContext(UserContext);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const navigate = useNavigate();
 
@@ -37,6 +38,9 @@ function App() {
                 </Nav.Link>
                 <Nav.Link className={navbarStyles.navbarButton} onClick={() => {navigate('/ingredientList'); handleClose();}}>
                   Ingredience
+                </Nav.Link>
+                <Nav.Link onClick={Authorize} className={navbarStyles.navbarButton}>
+                  {isAuthorized ? 'Odhlásit' : 'Přihlásit'}
                 </Nav.Link>
               </Nav>
             </Offcanvas.Body>

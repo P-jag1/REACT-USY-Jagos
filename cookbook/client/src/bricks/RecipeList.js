@@ -71,9 +71,11 @@ function RecipeList(props) {
               <Button className={recipeStyle.recipeButton} variant="outline-success" type="submit">
                   <Icon className={recipeStyle.icon} size={1} path={mdiMagnify} />
               </Button>
+              {props.isAuthorized &&
               <Button className={recipeStyle.recipeButton} onClick={handleNewRecipe}>
                 Nový Recept
               </Button>
+              }
               {!isPhone && (
                 <>
                   {isGrid && 
@@ -81,7 +83,7 @@ function RecipeList(props) {
                       {cardSize === RECIPE_DETAIL.LARGE ? "Malé Recepty" : "Velké Recepty"}
                     </Button>
                   }
-                  {!isTablet && 
+                  {!isTablet && props.isAuthorized && 
                     <Button className={recipeStyle.recipeButton} onClick={handleViewTypeChange}>
                       <Icon className={recipeStyle.icon} size={1} path={isGrid ? mdiTable : mdiViewGridOutline} /> {" "}
                       {isGrid ? "Tabulka" : "Seznam"}
@@ -99,6 +101,7 @@ function RecipeList(props) {
           recipeList={filteredRecipeList}
           cardSize={isPhone ? RECIPE_DETAIL.SMALL : cardSize} //pokud na isPhone je true, tak se bude zobrazovat pouze malý detail
           ingredientsList={props.ingredientsList}
+          isAuthorized={props.isAuthorized}
         />
       ) : (
         <RecipeTableList recipeList={filteredRecipeList} />

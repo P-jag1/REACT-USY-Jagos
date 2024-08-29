@@ -8,10 +8,12 @@ import RecipeList from './routes/RecipeList';
 import RecipeDetail from './routes/RecipeDetail';
 import IngredientList from './routes/IngredientList';
 import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './UserProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <UserProvider>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App />}>
@@ -22,6 +24,7 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
+    </UserProvider>
   </React.StrictMode>
 );
 

@@ -1,13 +1,15 @@
 import appStyles from '../App.css';
 import RecipeList from "../bricks/RecipeList";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Icon from "@mdi/react";
 import { mdiLoading } from "@mdi/js";
+import UserContext from '../UserProvider';
 //konstanty
 import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
 
   function RecipeListLoad() {
+    const { isAuthorized } = useContext(UserContext);
     const [recipeListLoadCall, setRecipeListLoadCall] = useState({state: STATE.PENDING,});
     const [ingredientListLoadCall, setingredientListLoadCall] = useState({state: STATE.PENDING,});
   
@@ -44,7 +46,7 @@ import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
     function getChild() {
       if (recipeListLoadCall.state === STATE.SUCCESS && ingredientListLoadCall.state === STATE.SUCCESS) {
         return (
-            <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data}/>
+            <RecipeList recipeList={recipeListLoadCall.data} ingredientsList = {ingredientListLoadCall.data} isAuthorized={isAuthorized}/>
         );
       } else if (recipeListLoadCall.state === STATE.ERROR || ingredientListLoadCall.state === STATE.ERROR) {
           return (
