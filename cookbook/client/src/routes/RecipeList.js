@@ -6,7 +6,7 @@ import Icon from "@mdi/react";
 import { mdiLoading } from "@mdi/js";
 import UserContext from '../UserProvider';
 //konstanty
-import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
+import { STATE, REQUEST_TYPE, API_URLS } from "../bricks/constants/ServerRequestStates";
 
   function RecipeListLoad() {
     const { isAuthorized } = useContext(UserContext);
@@ -14,7 +14,7 @@ import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
     const [ingredientListLoadCall, setingredientListLoadCall] = useState({state: STATE.PENDING,});
   
     useEffect(() => {
-      fetch(`http://localhost:3000/recipe/list`, {
+      fetch(API_URLS.RECIPE_LIST_GET, {
         method: REQUEST_TYPE.GET,
       }).then(async (response) => {
         const responseJson = await response.json();
@@ -29,7 +29,7 @@ import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
     }, []);
   
     useEffect(() => {
-      fetch(`http://localhost:3000/ingredient/list`, { 
+      fetch(API_URLS.RECIPE_INGREDIENTS_GET, { 
         method: REQUEST_TYPE.GET,
       }).then(async (response) => {
         const responseJson = await response.json();

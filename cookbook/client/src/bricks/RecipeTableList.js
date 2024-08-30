@@ -22,7 +22,7 @@ function RecipeTableList(props) {
 
   return (
     <>
-      <Table>
+      <Table bordered hover>
         <thead>
           <tr>
             <th>ID Receptu</th>

@@ -9,7 +9,7 @@ const DeleteConfirm = ({ show, onHide, onConfirm }) => {
       <Modal.Header closeButton>
         <Modal.Title>Smazat Recept</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Opravdu si přejete smazat tento recept?</Modal.Body>
+      <Modal.Body>Opravdu chcete smazat recept?</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
           Zrušit

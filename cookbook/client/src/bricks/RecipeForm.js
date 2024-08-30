@@ -5,7 +5,8 @@ import { Modal, Form, Button } from "react-bootstrap";
 import debounce from 'lodash/debounce';
 import modalStyles from "../css/recipeForm.module.css";
 
-const MAX_DESCRIPTION_LENGTH = 1500;
+import { REQUEST_TYPE, API_URLS } from "../bricks/constants/ServerRequestStates";
+import { QUILL_MAX_LENGTH, UNITS } from "./constants/RecipeConstants";
 
 function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onComplete }) {
     const initialRecipeData = {
@@ -23,8 +24,6 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onCom
         ingredients: false,
         duplicateIngredients: false,
     });
-
-    const units = ['ks', 'l', 'ml', 'g', 'kg', 'lžíce', 'lžička', 'špetka'];
 
     useEffect(() => {
         setRecipeData(initialRecipeData);
@@ -82,7 +81,7 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onCom
             return;
         }
 
-        const endpoint = isEditRecipe ? 'http://localhost:3000/recipe/update' : 'http://localhost:3000/recipe/create';
+        const endpoint = isEditRecipe ? API_URLS.RECIPE_UPDATE : API_URLS.RECIPE_CREATE;
         const formDataToSend = {
             ...recipeData,
             description: stripHtmlTags(recipeData.description),
@@ -95,7 +94,7 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onCom
 
         try {
             const response = await fetch(endpoint, {
-                method: 'POST',
+                method: REQUEST_TYPE.POST,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formDataToSend),
             });
@@ -121,7 +120,7 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onCom
     const debouncedDescriptionChange = useCallback(
         debounce((value) => {
             updateRecipeData("description", value);
-            setErrors(prev => ({ ...prev, description: value.length > MAX_DESCRIPTION_LENGTH }));
+            setErrors(prev => ({ ...prev, description: value.length > QUILL_MAX_LENGTH.LENGTH }));
         }, 300),
         []
     );
@@ -159,7 +158,7 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onCom
                         />
                         {errors.description && (
                             <p className="text-danger">
-                                Popis nesmí být více než {MAX_DESCRIPTION_LENGTH} znaků.
+                                Popis nesmí být více než {QUILL_MAX_LENGTH.LENGTH} znaků.
                             </p>
                         )}
                     </Form.Group>
@@ -195,7 +194,7 @@ function RecipeForm({ isEditRecipe, recipe, setNewRecipe, ingredientsList, onCom
                                     onChange={(e) => handleIngredientUpdate(index, "unit", e.target.value)}
                                 >
                                     <option value="">Jednotky</option>
-                                    {units.map(unit => (
+                                    {UNITS.map(unit => (
                                         <option key={unit} value={unit}>{unit}</option>
                                     ))}
                                 </Form.Select>

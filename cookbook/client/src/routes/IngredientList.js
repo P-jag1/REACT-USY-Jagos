@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 import Icon from "@mdi/react";
 import { mdiLoading } from "@mdi/js";
 //konstanty
-import { STATE, REQUEST_TYPE } from "../bricks/constants/ServerRequestStates";
+import { STATE, REQUEST_TYPE, API_URLS } from "../bricks/constants/ServerRequestStates";
   
   function IngredientListLoad() {
     const [ingredientListLoadCall, setingredientListLoadCall] = useState({state: STATE.PENDING,});
   
     useEffect(() => {
-      fetch(`http://localhost:3000/ingredient/list`, { 
+      fetch(API_URLS.RECIPE_INGREDIENTS_GET, { 
         method: REQUEST_TYPE.GET,
       }).then(async (response) => {
         const responseJson = await response.json();

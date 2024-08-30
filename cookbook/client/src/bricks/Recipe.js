@@ -8,11 +8,17 @@ import RecipeDelete from './RecipeDelete';
 import Icon from "@mdi/react";
 import { mdiChefHat, mdiStove } from "@mdi/js";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 //konstanty
 import { RECIPE_DETAIL } from "./constants/RecipeConstants";
 
 function Recipe(props) {
   const [isEditRecipe, setEditRecipe] = useState(false);
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate(`/recipeDetail/${props.recipe.id}`);
+  };
 
   const handleEditRecipe = () => setEditRecipe(true);
 
@@ -46,7 +52,7 @@ function Recipe(props) {
            )}
           {props.cardSize === RECIPE_DETAIL.LARGE && (
             <>
-              <Button className={recipeStyle.recipeButton}>
+              <Button className={recipeStyle.recipeButton} onClick={handleRedirect}>
                 Více...
               </Button>
               {props.isAuthorized && (
@@ -62,7 +68,7 @@ function Recipe(props) {
         </Card.Body>
         {props.cardSize !== RECIPE_DETAIL.LARGE && (
         <Card.Footer>
-        <Button className={recipeStyle.recipeButton}>
+        <Button className={recipeStyle.recipeButton} onClick={handleRedirect}>
             Více...
           </Button> 
           {props.isAuthorized && (

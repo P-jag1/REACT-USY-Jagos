@@ -5,6 +5,8 @@ import { mdiTrashCanOutline } from "@mdi/js";
 import deleteStyles from "../css/deleteRecipe.module.css";
 import DeleteConfirm from "./DeleteConfirm";
 
+import { STATE, REQUEST_TYPE, API_URLS } from "../bricks/constants/ServerRequestStates";
+
 export default function RecipeDelete({ recipeId, onDelete, onError }) {
   const [deleteCall, setDeleteCall] = useState({ state: 'inactive' });
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -19,13 +21,13 @@ export default function RecipeDelete({ recipeId, onDelete, onError }) {
 
   const handleDelete = async () => {
     setShowConfirmation(false);
-    if (deleteCall.state === 'pending') return;
+    if (deleteCall.state === STATE.PENDING) return;
 
-    setDeleteCall({ state: 'pending' });
+    setDeleteCall({ state: STATE.PENDING });
 
     try {
-      const res = await fetch(`http://localhost:3000/recipe/delete`, {
-        method: "POST",
+      const res = await fetch(API_URLS.RECIPE_DELETE, {
+        method: REQUEST_TYPE.POST,
         headers: {
           "Content-Type": "application/json"
         },
@@ -35,18 +37,18 @@ export default function RecipeDelete({ recipeId, onDelete, onError }) {
       const data = await res.json();
 
       if (res.status >= 400) {
-        setDeleteCall({ state: 'error', error: data });
+        setDeleteCall({ state: STATE.ERROR, error: data });
         if (typeof onError === 'function') {
           onError(data.errorMessage);
         }
       } else {
-        setDeleteCall({ state: 'success' });
+        setDeleteCall({ state: STATE.SUCCESS });
         if (typeof onDelete === 'function') {
           onDelete(recipeId);
         }
       }
     } catch (error) {
-      setDeleteCall({ state: 'error', error: error.message });
+      setDeleteCall({ state: STATE.ERROR, error: error.message });
       if (typeof onError === 'function') {
         onError(error.message);
       }
@@ -55,7 +57,7 @@ export default function RecipeDelete({ recipeId, onDelete, onError }) {
 
   return (
   <>
-    <Button className={deleteStyles.deleteRecipeButton}  onClick={(e) => { e.preventDefault(); handleShowConfirmation();}} disabled={deleteCall.state === 'pending'}>
+    <Button className={deleteStyles.deleteRecipeButton}  onClick={(e) => { e.preventDefault(); handleShowConfirmation();}} disabled={deleteCall.state === STATE.PENDING}>
         <Icon className={deleteStyles.deleteIcon} path={mdiTrashCanOutline} size={0.85} />
     </Button>
 
